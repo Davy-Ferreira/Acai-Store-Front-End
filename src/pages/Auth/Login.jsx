@@ -58,8 +58,14 @@ function LoginPage() {
 
   const passwordRules = [
     { ok: senhaMinima, message: "A senha deve conter pelo menos 4 caracteres" },
-    { ok: senhaTemMaiuscula, message: "A senha deve conter pelo menos 1 letra maiúscula" },
-    { ok: senhaTemMinuscula, message: "A senha deve conter pelo menos 1 letra minúscula" },
+    {
+      ok: senhaTemMaiuscula,
+      message: "A senha deve conter pelo menos 1 letra maiúscula",
+    },
+    {
+      ok: senhaTemMinuscula,
+      message: "A senha deve conter pelo menos 1 letra minúscula",
+    },
     { ok: senhaTemNumero, message: "A senha deve conter pelo menos 1 número" },
   ];
 
@@ -96,7 +102,10 @@ function LoginPage() {
             }}
           />
 
-          <ValidationMessage show={shouldShowEmailValidation} rules={emailRules} />
+          <ValidationMessage
+            show={shouldShowEmailValidation}
+            rules={emailRules}
+          />
 
           {/* SENHA */}
           <AuthInput
@@ -115,7 +124,8 @@ function LoginPage() {
             }}
             onChange={(e) => {
               setPassword(e.target.value);
-              if (!touched.password) setTouched((p) => ({ ...p, password: true }));
+              if (!touched.password)
+                setTouched((p) => ({ ...p, password: true }));
             }}
             rightIcon={showPass ? EyeOpenIcon : EyeClosedIcon}
             onRightIconClick={() => setShowPass((v) => !v)}
@@ -123,7 +133,10 @@ function LoginPage() {
           />
 
           {/* Regras de senha (todas juntas) */}
-          <ValidationMessage show={shouldShowPasswordValidation} rules={passwordRules} />
+          <ValidationMessage
+            show={shouldShowPasswordValidation}
+            rules={passwordRules}
+          />
 
           <div className="mt-3">
             <ButtonRoxo type="submit" disabled={!emailValido || !senhaValida}>
