@@ -7,25 +7,27 @@ import AuthTitle from "../../components/specific/AuthTitle";
 import ButtonRoxo from "../../components/layout/Button";
 import { EyeOpenIcon, EyeClosedIcon } from "../../components/layout/Icons";
 
+import { motion as Motion } from "framer-motion";
+import { pageAnimation } from "../../animations/page";
+
 function RegisterPage() {
   const [showPassPassword, setShowPassPassword] = useState(false);
   const [showPassConfirm, setShowPassConfirm] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // aqui entra sua lógica depois (supabase / api)
     console.log("submit register");
   };
 
   return (
     <main className="w-full min-h-dvh flex flex-col pt-5 overflow-y-auto relative">
-      {/* Tabs */}
+      {/* Tabs (SEM animação) */}
       <nav className="flex justify-center">
         <AuthTabs activeTabValor="register" />
       </nav>
 
-      {/* Conteúdo */}
-      <div className="px-4 pt-10 pb-8">
+      {/* Conteúdo (COM animação) */}
+      <Motion.div {...pageAnimation} className="px-4 pt-10 pb-8">
         <AuthTitle
           title="Criar Conta"
           subtitle="Crie sua conta para ter acesso ao site"
@@ -56,7 +58,9 @@ function RegisterPage() {
             autoComplete="new-password"
             rightIcon={showPassPassword ? EyeOpenIcon : EyeClosedIcon}
             onRightIconClick={() => setShowPassPassword((v) => !v)}
-            rightIconAriaLabel={showPassPassword ? "Ocultar senha" : "Mostrar senha"}
+            rightIconAriaLabel={
+              showPassPassword ? "Ocultar senha" : "Mostrar senha"
+            }
           />
 
           {/* Confirm Password (independente) */}
@@ -91,7 +95,7 @@ function RegisterPage() {
             Já Tenho Conta?
           </button>
         </form>
-      </div>
+      </Motion.div>
     </main>
   );
 }

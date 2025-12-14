@@ -71,7 +71,7 @@ function AuthInput({
             ${
               error
                 ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
-                : "border-gray-300 focus:border-purple-700 focus:ring-2 focus:ring-purple-200"
+                : "border-gray-300 focus:border-Primari-2 focus:ring-2 focus:ring-purple-200"
             }
             ${disabled ? "opacity-60 cursor-not-allowed" : ""}
           `}
