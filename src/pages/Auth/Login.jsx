@@ -10,6 +10,9 @@ import { EyeOpenIcon, EyeClosedIcon } from "../../components/layout/Icons";
 import ButtonRoxo from "../../components/layout/Button";
 import AuthTitle from "../../components/specific/AuthTitle";
 import ValidationMessage from "../../components/specific/ValidationMessage";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+
 
 function LoginPage() {
   const [showPass, setShowPass] = useState(false);
@@ -77,7 +80,7 @@ function LoginPage() {
       </nav>
 
       {/* Conteúdo COM animação */}
-      <Motion.div {...pageAnimation} className="px-4 pt-10 pb-8">
+      <Motion.div {...pageAnimation} className="px-4 mb-4 pt-10">
         <AuthTitle title="Login" subtitle="Faça login para acessar sua conta" />
 
         <form className="mt-8 flex flex-col gap-2" onSubmit={handleSubmit}>
@@ -148,6 +151,28 @@ function LoginPage() {
             <div className="h-px w-full bg-black/25" />
           </div>
 
+          <div className="w-full max-w-md">
+            <GoogleOAuthProvider clientId="880656243346-25rbh2dj7sc5uga0dpg1lr618jjt73ta.apps.googleusercontent.com">
+              <GoogleLogin
+                text="continue_with"
+                locale="pt-BR"
+                width="100%"
+                theme="outline"
+                size="large"
+                shape="pill"
+                onSuccess={(response) => {
+                  const token = response?.credential;
+                  if (!token) {
+                    console.log("Sem credential:", response);
+                    return;
+                  }
+                  const user = jwtDecode(token);
+                  console.log("Google user:", user);
+                }}
+                onError={() => console.log("Erro no login Google")}
+              />
+            </GoogleOAuthProvider>
+          </div>
           <button
             type="button"
             className="pt-4 text-center font-roboto text-sm text-Primari-2 underline underline-offset-4"
