@@ -152,7 +152,7 @@ function LoginPage() {
           </div>
 
           <div className="w-full max-w-md">
-            <GoogleOAuthProvider clientId="880656243346-25rbh2dj7sc5uga0dpg1lr618jjt73ta.apps.googleusercontent.com">
+            <GoogleOAuthProvider clientId="">
               <GoogleLogin
                 text="continue_with"
                 locale="pt-BR"
