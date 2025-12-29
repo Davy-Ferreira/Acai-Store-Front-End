@@ -6,3 +6,10 @@ export function loginRequest(email, password) {
     body: JSON.stringify({ email, password }),
   });
 }
+
+export function loginWithGoogleRequest(idToken) {
+  return apiFetch("/auth/google", {
+    method: "POST",
+    body: JSON.stringify({ idToken}),
+  });
+}

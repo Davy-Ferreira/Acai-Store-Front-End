@@ -1,20 +1,29 @@
+// 1) React / libs
 import React from "react";
 import { motion as Motion } from "framer-motion";
+
+// 2) Animações / configs
 import { pageAnimation } from "../../animations/page";
 
+// 3) Hooks
+import { useLoginForm } from "../../hooks/useLoginForm";
+
+// 4) Componentes (página/auth)
 import AuthTabs from "../../components/specific/AuthTabs";
+import AuthTitle from "../../components/specific/AuthTitle";
+import AuthInput from "../../components/specific/AuthInput";
+import ValidationMessage from "../../components/specific/ValidationMessage";
+import GoogleLoginButton from "../../components/specific/GoogleLoginButton";
+import AuthNotice from "../../components/specific/AuthNotice";
+
+// 5) Componentes (layout/UI)
+import ButtonRoxo from "../../components/layout/Button";
+import { EyeOpenIcon, EyeClosedIcon } from "../../components/layout/Icons";
+import Divider from "../../components/ui/Divider";
+
+// 6) Assets
 import EmailIcon from "../../assets/icons/Email-Icon.svg";
 import PaswordIcon from "../../assets/icons/Pasword-Icon.svg";
-import AuthInput from "../../components/specific/AuthInput";
-import { EyeOpenIcon, EyeClosedIcon } from "../../components/layout/Icons";
-import ButtonRoxo from "../../components/layout/Button";
-import AuthTitle from "../../components/specific/AuthTitle";
-import ValidationMessage from "../../components/specific/ValidationMessage";
-
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-import { jwtDecode } from "jwt-decode";
-
-import { useLoginForm } from "../../hooks/useLoginForm";
 
 function LoginPage() {
   const {
@@ -28,13 +37,13 @@ function LoginPage() {
     setTouched,
     setActiveField,
 
-    emailOk,
-    passwordOk,
     emailRules,
     passwordRules,
     shouldShowEmailValidation,
     shouldShowPasswordValidation,
 
+    isSubmitting,
+    disabled,
     handleSubmit,
   } = useLoginForm();
 
@@ -96,37 +105,16 @@ function LoginPage() {
           <ValidationMessage show={shouldShowPasswordValidation} rules={passwordRules} />
 
           <div className="mt-3">
-            <ButtonRoxo type="submit" disabled={!emailOk || !passwordOk}>
-              Fazer Login
+            <ButtonRoxo type="submit" disabled={disabled}>
+              {isSubmitting ? "Entrando..." : "Fazer Login"}
             </ButtonRoxo>
+
+            <AuthNotice />
           </div>
 
-          <div className="pt-3">
-            <div className="h-px w-full bg-black/25" />
-          </div>
+          <Divider label="OU" />
 
-          <div className="w-full max-w-md">
-            <GoogleOAuthProvider clientId="">
-              <GoogleLogin
-                text="continue_with"
-                locale="pt-BR"
-                width="100%"
-                theme="outline"
-                size="large"
-                shape="pill"
-                onSuccess={(response) => {
-                  const token = response?.credential;
-                  if (!token) {
-                    console.log("Sem credential:", response);
-                    return;
-                  }
-                  const user = jwtDecode(token);
-                  console.log("Google user:", user);
-                }}
-                onError={() => console.log("Erro no login Google")}
-              />
-            </GoogleOAuthProvider>
-          </div>
+          <GoogleLoginButton />
 
           <button
             type="button"
