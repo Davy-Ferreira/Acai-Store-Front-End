@@ -26,7 +26,7 @@ function AuthInput({
             {leftIcon ? (
               leftIcon
             ) : (
-              <img src={leftIconSrc} alt={leftIconAlt} className="w-5 h-5" />
+              <img src={leftIconSrc}  alt={leftIconAlt} className="w-5 h-5 " />
             )}
           </div>
         )}
@@ -37,7 +37,7 @@ function AuthInput({
           onChange={onChange}
           placeholder={placeholder}
           autoComplete={autoComplete}
-          className={`w-full rounded-xl border px-3 py-3 outline-none transition ${
+          className={`w-full  bg-white rounded-xl border px-3 py-3 outline-none transition ${
             leftIcon || leftIconSrc ? "pl-10" : ""
           } ${rightIcon ? "pr-10" : ""} ${
             error ? "border-red-500" : "border-gray-300 focus:border-purple-700"
@@ -48,7 +48,7 @@ function AuthInput({
             type="button"
             onClick={onRightIconClick}
             aria-label={rightIconAriaLabel}
-            className="absolute inset-y-0 right-3 flex items-center"
+            className="absolute inset-y-0 right-3 flex items-center cursor-pointer" 
           >
             {RightIconComp ? <RightIconComp /> : rightIcon}
           </button>

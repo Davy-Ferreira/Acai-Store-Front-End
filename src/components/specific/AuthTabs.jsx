@@ -39,11 +39,11 @@ function AuthTabs({ activeTabValor }) {
   const isLogin = animTab === "login";
 
   return (
-    <div className="relative flex w-[90%]">
+    <div className="relative flex xl:max-w-[70%] w-[90%]">
       <button
         type="button"
         onClick={() => go("login")}
-        className="flex-1 py-3 text-center font-roboto text-black"
+        className="flex-1 py-3 text-center font-roboto font-normal text-Primari-2 "
       >
         Login
       </button>
@@ -51,7 +51,7 @@ function AuthTabs({ activeTabValor }) {
       <button
         type="button"
         onClick={() => go("register")}
-        className="flex-1 py-3 text-center font-roboto text-black"
+        className="flex-1 py-3 text-center font-roboto font-normal text-Primari-2"
       >
         Criar Conta
       </button>
@@ -61,7 +61,7 @@ function AuthTabs({ activeTabValor }) {
         className={`
           absolute bottom-0 left-0
           h-0.5 w-1/2
-          bg-Cinza-Ativo
+          bg-Primari-2
           transition-transform ease-out
           duration-[${ANIM_MS}ms]
           ${isLogin ? "translate-x-0" : "translate-x-full"}

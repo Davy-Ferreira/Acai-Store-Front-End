@@ -1,28 +1,33 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { motion as Motion } from "framer-motion";
 
-// 1) UI / Componentes
+// 1) Componentes de autenticação
 import AuthTabs from "../../components/specific/AuthTabs";
 import AuthInput from "../../components/specific/AuthInput";
 import AuthTitle from "../../components/specific/AuthTitle";
 import ValidationMessage from "../../components/specific/ValidationMessage";
+import AuthNotice from "../../components/specific/AuthNotice";
+
+// 2) Layout / UI
 import ButtonRoxo from "../../components/layout/Button";
 import { EyeOpenIcon, EyeClosedIcon } from "../../components/layout/Icons";
+import AuthSideImage from "../../components/layout/AuthSideImage";
 
-// 2) Assets (ícones)
+// 3) Assets
 import EmailIcon from "../../assets/icons/Email-Icon.svg";
 import PaswordIcon from "../../assets/icons/Pasword-Icon.svg";
-
-// 3) Asset (imagem fixa)
 import AcaiImage from "../../assets/images/Açai_1.png";
 
 // 4) Animações
-import { motion as Motion } from "framer-motion";
 import { pageAnimation } from "../../animations/page";
 
 // 5) Hook
 import { useRegisterForm } from "../../hooks/useRegisterForm";
 
 function RegisterPage() {
+  const navigate = useNavigate();
+
   const {
     showPassPassword,
     setShowPassPassword,
@@ -53,38 +58,59 @@ function RegisterPage() {
   } = useRegisterForm();
 
   return (
-    <main className="min-h-dvh w-full bg-white">
-      {/* Layout responsivo */}
+    <main
+      className="
+        z-0
+        w-screen h-screen max-h-screen
+        bg-[url('/src/assets/paterns/PatternRoxoCell.svg')]
+        md:bg-[url('/src/assets/paterns/PatternRoxoPc.svg')]
+        bg-cover bg-center bg-no-repeat
+      "
+    >
+      {/* Grid principal */}
       <div className="min-h-dvh w-full md:grid md:grid-cols-2">
-        {/* LEFT – formulário */}
+        {/* LEFT – Formulário */}
         <div
           className="
             w-full min-h-dvh
             flex flex-col
-            pt-5 overflow-y-auto
+            pt-5
+            overflow-y-auto
             md:items-center
+            md:justify-center
           "
         >
+          {/* Tabs */}
           <nav className="flex justify-center w-full">
             <AuthTabs activeTabValor="register" />
           </nav>
 
-          {/* 🔹 ESTE BLOCO AGORA FICA CENTRALIZADO */}
+          {/* Conteúdo */}
           <Motion.div
             {...pageAnimation}
-            className="px-4 pt-10 pb-10 w-full max-w-md"
+            className="
+              w-full
+              max-w-md
+              px-4
+              md:px-6
+              lg:px-8
+              pt-10
+              pb-10
+            "
           >
             <AuthTitle
               title="Criar Conta"
               subtitle="Crie sua conta para ter acesso ao site"
             />
 
-            <form className="mt-8 flex flex-col gap-2" onSubmit={handleSubmit}>
+            <form
+              className="mt-8 flex flex-col gap-2"
+              onSubmit={handleSubmit}
+            >
               {/* Email */}
               <AuthInput
                 id="email"
                 name="email"
-                label="Email"
                 type="email"
                 placeholder="Email"
                 leftIconSrc={EmailIcon}
@@ -109,11 +135,10 @@ function RegisterPage() {
                 rules={emailRules}
               />
 
-              {/* Password */}
+              {/* Senha */}
               <AuthInput
                 id="password"
                 name="password"
-                label="Senha"
                 type={showPassPassword ? "text" : "password"}
                 placeholder="Senha"
                 leftIconSrc={PaswordIcon}
@@ -132,7 +157,9 @@ function RegisterPage() {
                   }
                 }}
                 rightIcon={showPassPassword ? EyeOpenIcon : EyeClosedIcon}
-                onRightIconClick={() => setShowPassPassword((v) => !v)}
+                onRightIconClick={() =>
+                  setShowPassPassword((v) => !v)
+                }
                 rightIconAriaLabel={
                   showPassPassword ? "Ocultar senha" : "Mostrar senha"
                 }
@@ -143,11 +170,10 @@ function RegisterPage() {
                 rules={passwordRules}
               />
 
-              {/* Confirm Password */}
+              {/* Confirmar senha */}
               <AuthInput
                 id="confirmPassword"
                 name="confirmPassword"
-                label="Confirmar senha"
                 type={showPassConfirm ? "text" : "password"}
                 placeholder="Confirmar senha"
                 leftIconSrc={PaswordIcon}
@@ -157,16 +183,24 @@ function RegisterPage() {
                 onFocus={() => setActiveField("confirmPassword")}
                 onBlur={() => {
                   setActiveField(null);
-                  setTouched((p) => ({ ...p, confirmPassword: true }));
+                  setTouched((p) => ({
+                    ...p,
+                    confirmPassword: true,
+                  }));
                 }}
                 onChange={(e) => {
                   setConfirmPassword(e.target.value);
                   if (!touched.confirmPassword) {
-                    setTouched((p) => ({ ...p, confirmPassword: true }));
+                    setTouched((p) => ({
+                      ...p,
+                      confirmPassword: true,
+                    }));
                   }
                 }}
                 rightIcon={showPassConfirm ? EyeOpenIcon : EyeClosedIcon}
-                onRightIconClick={() => setShowPassConfirm((v) => !v)}
+                onRightIconClick={() =>
+                  setShowPassConfirm((v) => !v)
+                }
                 rightIconAriaLabel={
                   showPassConfirm
                     ? "Ocultar confirmação"
@@ -179,19 +213,32 @@ function RegisterPage() {
                 rules={confirmRules}
               />
 
+              {/* Botão */}
               <div className="mt-3">
                 <ButtonRoxo type="submit" disabled={disabled}>
                   {isSubmitting ? "Criando..." : "Criar Conta"}
                 </ButtonRoxo>
+                <AuthNotice />
               </div>
 
+              {/* Divider */}
               <div className="pt-3">
                 <div className="h-px w-full bg-black/25" />
               </div>
 
+              {/* Voltar para login */}
               <button
                 type="button"
-                className="pt-4 text-center font-roboto text-sm text-Primari-2 underline underline-offset-4"
+                onClick={() => navigate("/login")}
+                className="
+                  pt-4
+                  text-center
+                  font-roboto
+                  text-sm
+                  text-Primari-2
+                  underline
+                  underline-offset-4
+                "
               >
                 Já Tenho Conta?
               </button>
@@ -199,22 +246,12 @@ function RegisterPage() {
           </Motion.div>
         </div>
 
-        {/* RIGHT – imagem (tablet+) */}
-        <aside className="hidden md:block min-h-dvh w-full overflow-hidden">
-          <img
-            src={AcaiImage}
-            alt="Açaí"
-            className="
-              w-full
-              h-full
-              object-cover
-              object-center
-              drop-shadow-2xl
-              select-none
-            "
-            draggable="false"
-          />
-        </aside>
+        {/* RIGHT – Imagem */}
+        <AuthSideImage
+          src={AcaiImage}
+          alt="Açaí"
+          imgClassName="object-center"
+        />
       </div>
     </main>
   );
