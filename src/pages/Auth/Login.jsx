@@ -1,14 +1,13 @@
-// 1) React / libs
 import React from "react";
 import { motion as Motion } from "framer-motion";
 
-// 2) Animações / configs
+// Animações
 import { pageAnimation } from "../../animations/page";
 
-// 3) Hooks
+// Hook
 import { useLoginForm } from "../../hooks/useLoginForm";
 
-// 4) Componentes (página/auth)
+// Auth components
 import AuthTabs from "../../components/specific/AuthTabs";
 import AuthTitle from "../../components/specific/AuthTitle";
 import AuthInput from "../../components/specific/AuthInput";
@@ -16,15 +15,13 @@ import ValidationMessage from "../../components/specific/ValidationMessage";
 import GoogleLoginButton from "../../components/specific/GoogleLoginButton";
 import AuthNotice from "../../components/specific/AuthNotice";
 
-// 5) Componentes (layout/UI)
+// Layout / UI
 import ButtonRoxo from "../../components/layout/Button";
 import { EyeOpenIcon, EyeClosedIcon } from "../../components/layout/Icons";
 import Divider from "../../components/ui/Divider";
-
-// ✅ componente reutilizável da imagem lateral
 import AuthSideImage from "../../components/layout/AuthSideImage";
 
-// 6) Assets
+// Assets
 import EmailIcon from "../../assets/icons/Email-Icon.svg";
 import PaswordIcon from "../../assets/icons/Pasword-Icon.svg";
 import AcaiImage from "../../assets/images/Açai_1.png";
@@ -54,106 +51,183 @@ function LoginPage() {
   return (
     <main
       className="
-        z-0
+        relative
         w-screen h-screen max-h-screen
         bg-[url('/src/assets/paterns/PatternRoxoCell.svg')]
         md:bg-[url('/src/assets/paterns/PatternRoxoPc.svg')]
         bg-cover bg-center bg-no-repeat
+        overflow-hidden
       "
     >
-      {/* Tablet+ vira 2 colunas */}
-      <div className="min-h-dvh w-full md:grid md:grid-cols-2">
-        {/* LEFT – form (centralizado no tablet+) */}
-        <div className="w-full min-h-dvh flex md:justify-center flex-col pt-5 overflow-y-auto md:items-center">
-          <nav className="flex justify-center w-full">
-            <AuthTabs activeTabValor="login" />
-          </nav>
+      {/* overlay de opacidade do pattern */}
+      <div
+        className="
+          pointer-events-none
+          absolute inset-0
+          bg-[url('/src/assets/paterns/PatternRoxoCell.svg')]
+          md:bg-[url('/src/assets/paterns/PatternRoxoPc.svg')]
+          bg-cover bg-center bg-no-repeat
+          opacity-25
+        "
+      />
 
+      <div className="relative min-h-dvh w-full md:grid md:grid-cols-2">
+        {/* LEFT – formulário */}
+        <div
+          className="
+            w-full min-h-dvh
+            flex flex-col
+            pt-5
+            overflow-y-auto
+            md:items-center
+            md:justify-center
+          "
+        >
+          {/* CARD */}
           <Motion.div
             {...pageAnimation}
-            className="px-4 mb-4 pt-10 w-full max-w-md lg:max-w-[90%] xl:max-w-[70%]"
+            className="
+              w-full
+              px-4
+              pt-6
+              pb-8
+              mt-4
+              mb-6
+              flex
+              justify-center
+            "
           >
-            <AuthTitle title="Login" subtitle="Faça login para acessar sua conta" />
+            <div
+              className="
+                w-full
+                max-w-md
+                lg:max-w-[90%]
+                xl:max-w-[70%]
 
-            <form className="mt-8 flex flex-col gap-2" onSubmit={handleSubmit}>
-              <AuthInput
-                id="email"
-                name="email"
-                type="email"
-                placeholder="Email"
-                leftIconSrc={EmailIcon}
-                leftIconAlt="Email"
-                autoComplete="email"
-                value={email}
-                onFocus={() => setActiveField("email")}
-                onBlur={() => {
-                  setActiveField(null);
-                  setTouched((p) => ({ ...p, email: true }));
-                }}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (!touched.email) setTouched((p) => ({ ...p, email: true }));
-                }}
-              />
+                rounded-4xl
+                bg-white/85
+                backdrop-blur-md
+                border border-white/60
 
-              <ValidationMessage
-                show={shouldShowEmailValidation}
-                rules={emailRules}
-              />
+                shadow-[0_20px_60px_rgba(0,0,0,0.12)]
+                ring-1 ring-black/5
 
-              <AuthInput
-                id="password"
-                name="password"
-                type={showPass ? "text" : "password"}
-                placeholder="Senha"
-                leftIconSrc={PaswordIcon}
-                leftIconAlt="Senha"
-                autoComplete="current-password"
-                value={password}
-                onFocus={() => setActiveField("password")}
-                onBlur={() => {
-                  setActiveField(null);
-                  setTouched((p) => ({ ...p, password: true }));
-                }}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  if (!touched.password)
-                    setTouched((p) => ({ ...p, password: true }));
-                }}
-                rightIcon={showPass ? EyeOpenIcon : EyeClosedIcon}
-                onRightIconClick={() => setShowPass((v) => !v)}
-                rightIconAriaLabel={showPass ? "Ocultar senha" : "Mostrar senha"}
-              />
-
-              <ValidationMessage
-                show={shouldShowPasswordValidation}
-                rules={passwordRules}
-              />
-
-              <div className="mt-3">
-                <ButtonRoxo type="submit" disabled={disabled}>
-                  {isSubmitting ? "Entrando..." : "Fazer Login"}
-                </ButtonRoxo>
-
-                <AuthNotice />
+                px-6
+                py-7
+              "
+            >
+              {/* Tabs agora dentro do card */}
+              <div className="flex justify-center">
+                <AuthTabs activeTabValor="login" />
               </div>
 
-              <Divider label="OU" />
+              <div className="mt-7">
+                <AuthTitle
+                  title="Login"
+                  subtitle="Faça login para acessar sua conta"
+                />
+              </div>
 
-              <GoogleLoginButton />
+              <form className="mt-8 flex flex-col gap-2" onSubmit={handleSubmit}>
+                {/* Email */}
+                <AuthInput
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="Email"
+                  leftIconSrc={EmailIcon}
+                  leftIconAlt="Email"
+                  autoComplete="email"
+                  value={email}
+                  onFocus={() => setActiveField("email")}
+                  onBlur={() => {
+                    setActiveField(null);
+                    setTouched((p) => ({ ...p, email: true }));
+                  }}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (!touched.email) {
+                      setTouched((p) => ({ ...p, email: true }));
+                    }
+                  }}
+                />
 
-              <button
-                type="button"
-                className="pt-4 text-center font-roboto text-sm text-Primari-2 underline underline-offset-4"
-              >
-                Esqueci minha senha?
-              </button>
-            </form>
+                <ValidationMessage
+                  show={shouldShowEmailValidation}
+                  rules={emailRules}
+                />
+
+                {/* Senha */}
+                <AuthInput
+                  id="password"
+                  name="password"
+                  type={showPass ? "text" : "password"}
+                  placeholder="Senha"
+                  leftIconSrc={PaswordIcon}
+                  leftIconAlt="Senha"
+                  autoComplete="current-password"
+                  value={password}
+                  onFocus={() => setActiveField("password")}
+                  onBlur={() => {
+                    setActiveField(null);
+                    setTouched((p) => ({ ...p, password: true }));
+                  }}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (!touched.password) {
+                      setTouched((p) => ({ ...p, password: true }));
+                    }
+                  }}
+                  rightIcon={showPass ? EyeOpenIcon : EyeClosedIcon}
+                  onRightIconClick={() => setShowPass((v) => !v)}
+                  rightIconAriaLabel={
+                    showPass ? "Ocultar senha" : "Mostrar senha"
+                  }
+                />
+
+                <ValidationMessage
+                  show={shouldShowPasswordValidation}
+                  rules={passwordRules}
+                />
+
+                {/* Botão */}
+                <div className="mt-3">
+                  <ButtonRoxo type="submit" disabled={disabled}>
+                    {isSubmitting ? "Entrando..." : "Fazer Login"}
+                  </ButtonRoxo>
+
+                  <AuthNotice />
+                </div>
+
+                <Divider label="OU" />
+
+                <GoogleLoginButton />
+
+                <button
+                  type="button"
+                  className="
+                    pt-4
+                    text-center
+                    font-roboto
+                    text-sm
+                    text-Primari-2
+                    underline
+                    underline-offset-4
+                  "
+                >
+                  Esqueci minha senha?
+                </button>
+              </form>
+            </div>
           </Motion.div>
         </div>
 
-        {/* RIGHT – imagem reutilizável */}
-        <AuthSideImage src={AcaiImage} imgClassName="object-center" alt="Açaí" />
+        {/* RIGHT – imagem */}
+        <AuthSideImage
+          src={AcaiImage}
+          alt="Açaí"
+          imgClassName="object-center"
+        />
       </div>
     </main>
   );
