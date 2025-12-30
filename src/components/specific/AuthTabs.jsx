@@ -2,17 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LOGIN, REGISTER } from "../../routes/paths";
 
-const ANIM_MS = 140; // tempo da animação (tem que bater com o duration-*)
+const ANIM_MS = 140; // Aumentei levemente para uma transição mais fluida
 
 function AuthTabs({ activeTabValor }) {
   const navigate = useNavigate();
 
-  // Estado local só para animar antes de trocar de rota
   const [animTab, setAnimTab] = useState(activeTabValor);
   const lockRef = useRef(false);
   const timerRef = useRef(null);
 
-  // Mantém o underline sincronizado quando a rota muda por outros meios
   useEffect(() => {
     setAnimTab(activeTabValor);
   }, [activeTabValor]);
@@ -22,15 +20,14 @@ function AuthTabs({ activeTabValor }) {
   }, []);
 
   const go = (tab) => {
-    if (lockRef.current) return;            // evita spam de clique
-    if (tab === activeTabValor) return;     // já está nessa página
+    if (lockRef.current) return;
+    if (tab === activeTabValor) return;
 
     lockRef.current = true;
-    setAnimTab(tab);                        // 1) dispara animação
+    setAnimTab(tab);
 
     window.clearTimeout(timerRef.current);
     timerRef.current = window.setTimeout(() => {
-      // 2) navega depois da animação
       navigate(tab === "login" ? LOGIN : REGISTER);
       lockRef.current = false;
     }, ANIM_MS);
@@ -39,11 +36,26 @@ function AuthTabs({ activeTabValor }) {
   const isLogin = animTab === "login";
 
   return (
-    <div className="relative flex xl:max-w-[70%] w-[90%]">
+    <div className="relative flex w-[95%] max-w-100 p-1 bg-gray-100/10 md:max-w-[90%] lg:max-w-[80%] xl:max-w-[62%] 2xl:max-w-[65%] rounded-full border border-gray-200/50 backdrop-blur-sm">
+      {/* Indicador Deslizante (Fundo Branco) */}
+      <div
+        className={`
+          absolute top-1 bottom-1 left-1
+          w-[calc(50%-4px)]
+          bg-white rounded-full shadow-sm
+          transition-transform ease-in-out
+          duration-200ms
+          ${isLogin ? "translate-x-0" : "translate-x-full"}
+        `}
+      />
+
       <button
         type="button"
         onClick={() => go("login")}
-        className="flex-1 py-3 text-center font-roboto font-normal text-Primari-2 "
+        className={`
+          relative z-10 flex-1 py-2.5 text-sm font-roboto font-medium transition-colors duration-200
+          ${isLogin ? "text-Primari-2" : "text-gray-500 hover:text-gray-700"}
+        `}
       >
         Login
       </button>
@@ -51,22 +63,13 @@ function AuthTabs({ activeTabValor }) {
       <button
         type="button"
         onClick={() => go("register")}
-        className="flex-1 py-3 text-center font-roboto font-normal text-Primari-2"
+        className={`
+          relative z-10 flex-1 py-2.5 text-sm font-roboto  font-medium transition-colors duration-200
+          ${!isLogin ? "text-Primari-2" : "text-gray-500 hover:text-gray-700"}
+        `}
       >
         Criar Conta
       </button>
-
-      {/* Underline animado */}
-      <span
-        className={`
-          absolute bottom-0 left-0
-          h-0.5 w-1/2
-          bg-Primari-2
-          transition-transform ease-out
-          duration-[${ANIM_MS}ms]
-          ${isLogin ? "translate-x-0" : "translate-x-full"}
-        `}
-      />
     </div>
   );
 }

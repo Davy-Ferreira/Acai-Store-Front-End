@@ -88,25 +88,14 @@ function RegisterPage() {
           {/* Conteúdo */}
           <Motion.div
             {...pageAnimation}
-            className="
-              w-full
-              max-w-md
-              px-4
-              md:px-6
-              lg:px-8
-              pt-10
-              pb-10
-            "
+            className="px-4 mb-4 pt-10 w-full max-w-md lg:max-w-[90%] xl:max-w-[70%]"
           >
             <AuthTitle
               title="Criar Conta"
               subtitle="Crie sua conta para ter acesso ao site"
             />
 
-            <form
-              className="mt-8 flex flex-col gap-2"
-              onSubmit={handleSubmit}
-            >
+            <form className="mt-8 flex flex-col gap-2" onSubmit={handleSubmit}>
               {/* Email */}
               <AuthInput
                 id="email"
@@ -157,9 +146,7 @@ function RegisterPage() {
                   }
                 }}
                 rightIcon={showPassPassword ? EyeOpenIcon : EyeClosedIcon}
-                onRightIconClick={() =>
-                  setShowPassPassword((v) => !v)
-                }
+                onRightIconClick={() => setShowPassPassword((v) => !v)}
                 rightIconAriaLabel={
                   showPassPassword ? "Ocultar senha" : "Mostrar senha"
                 }
@@ -198,9 +185,7 @@ function RegisterPage() {
                   }
                 }}
                 rightIcon={showPassConfirm ? EyeOpenIcon : EyeClosedIcon}
-                onRightIconClick={() =>
-                  setShowPassConfirm((v) => !v)
-                }
+                onRightIconClick={() => setShowPassConfirm((v) => !v)}
                 rightIconAriaLabel={
                   showPassConfirm
                     ? "Ocultar confirmação"

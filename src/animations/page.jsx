@@ -1,7 +1,7 @@
 export const pageAnimation = {
   initial: {
     opacity: 0,
-    y: 24,
+    y: 80,
   },
   animate: {
     opacity: 1,
@@ -12,7 +12,7 @@ export const pageAnimation = {
     y: -16,
   },
   transition: {
-    duration: 0.45,
+    duration: 0.9,
     ease: "easeOut",
   },
 };
